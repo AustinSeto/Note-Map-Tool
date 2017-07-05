@@ -34,12 +34,6 @@ import java.io.IOException;
  * @author Austin Seto
  */
 public class ReadFile {
-  
-  // Constants
-  private static final int HEADER_SIZE = 3;
-  private static final int HEADER_LINE_NUM_INDEX = 0;
-  private static final int HEADER_BPM_INDEX = 1;
-  private static final int HEADER_LENGTH_INDEX = 2;
     
   /**
    * Gets the relevant contents of a file in the proper file format for the Note Map Creator.
@@ -53,10 +47,10 @@ public class ReadFile {
     FileReader fr = new FileReader(fileName);
     BufferedReader br = new BufferedReader(fr);
     int header[] = getHeader(br);
-    String contents[] = new String[header[HEADER_LINE_NUM_INDEX]];
-    for (int i = 0; i < header[HEADER_LINE_NUM_INDEX]; i++) {
+    String contents[] = new String[header[FileProperty.HEADER_LINE_NUM_INDEX.getValue()]];
+    for (int i = 0; i < header[FileProperty.HEADER_LINE_NUM_INDEX.getValue()]; i++) {
       // Get every line
-      contents[i] = processLine(header[HEADER_LENGTH_INDEX], br);
+      contents[i] = processLine(header[FileProperty.HEADER_LENGTH_INDEX.getValue()], br);
     }
     return contents;
   }
@@ -73,20 +67,20 @@ public class ReadFile {
     FileReader fr = new FileReader(fileName);
     BufferedReader br = new BufferedReader(fr);
     int header[] = getHeader(br);
-    return header[HEADER_BPM_INDEX];
+    return header[FileProperty.HEADER_BPM_INDEX.getValue()];
   }
   
   private static int[] getHeader(BufferedReader br) {
-    int header[] = new int[HEADER_SIZE];
+    int header[] = new int[FileProperty.HEADER_SIZE.getValue()];
     try {
       String contents = br.readLine();
       String nums[] = contents.split(" ");
-      for (int i = 0; i < HEADER_SIZE; i++) {
+      for (int i = 0; i < FileProperty.HEADER_SIZE.getValue(); i++) {
         header[i] = Integer.getInteger(nums[i], 0);
       }
     } catch (IOException e) {
       // If header cannot be read for some reason, return a zero header
-      for (int i = 0; i < HEADER_SIZE; i++) {
+      for (int i = 0; i < FileProperty.HEADER_SIZE.getValue(); i++) {
         header[i] = 0;
       }
     }
